@@ -30,8 +30,8 @@ const steps = [
   'Удобства и студенческая жизнь'
 ];
 
-const languages_list = ['английский', 'китайский', 'чешский', 'русский', 'испанский'];
-const countries = ['Казахстан', 'Россия', 'США', 'Китай', 'Чехия', 'Испания'];
+const languages_list = ['английский', 'китайский', 'чешский', 'русский', 'испанский', 'турецкий'];
+const countries = ['Казахстан', 'Россия', 'США', 'Китай', 'Чехия', 'Испания', 'Турция'];
 
 const UniversityReadUpdatePage = () => {
   const axiosPrivate = useAxiosPrivate();
@@ -69,7 +69,14 @@ const UniversityReadUpdatePage = () => {
         living_cost: universityData.main.living_cost || [],
         qs_ranking: universityData.main.qs_ranking || '',
         ielts: universityData.main.ielts || '',
+        toefl: universityData.main.toefl || '', //new
+        the_ranking: universityData.main.the_ranking || '', //new
+        arwu_ranking: universityData.main.arwu_ranking || '', //new
+        reviews: universityData.reviews || [], //new
+        percentage_acceptance: universityData.percentage_acceptance || '', //new
+        visa_info: universityData.visa_info || '', //new
         application_deadline: universityData.main.application_deadline || '',
+        city: universityData.city || '',
         comments: [
           universityData.contact_info || '',
           universityData.general_info || '',
@@ -133,8 +140,14 @@ const UniversityReadUpdatePage = () => {
         living_cost: formValues.living_cost,
         application_deadline: formValues.application_deadline,
         qs_ranking: formValues.qs_ranking,
-        ielts: formValues.ielts
+        ielts: formValues.ielts,
+        toefl: formValues.toefl, //new
+        the_ranking: formValues.the_ranking, //new
+        arwu_ranking: formValues.arwu_ranking, //new
       },
+      reviews: formValues.reviews, //new
+      percentage_acceptance: formValues.percentage_acceptance, //new
+      visa_info: formValues.visa_info, //new
       location: formValues.country,
       contact_info: formValues.comments[0],
       general_info: formValues.comments[1],
@@ -142,7 +155,9 @@ const UniversityReadUpdatePage = () => {
       admission_info: formValues.comments[3],
       facilities: "",
       student_life: formValues.comments[4],
-      images: []
+      images: [],
+      status_tag: "Одобрено",
+      city: formValues.city,
     };
 
     try {
@@ -230,6 +245,14 @@ const UniversityReadUpdatePage = () => {
                   });
                 }}
               />
+              <TextField
+                  label="Город"
+                  margin="normal"
+                  fullWidth
+                  name="city"
+                  value={formValues.city}
+                  onChange={handleInputChange}
+              />
               <Box sx={{ mt: 2, mb: 2 }}>
                 <Typography variant="h6">Язык обучения:</Typography>
                 <Autocomplete
@@ -306,26 +329,42 @@ const UniversityReadUpdatePage = () => {
                 </Grid>
               </Grid>
               <Grid container spacing={2}>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    fullWidth
-                    name="qs_ranking"
-                    label="QS Ranking"
-                    value={formValues.qs_ranking}
-                    onChange={handleInputChange}
-                    margin="normal"
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    fullWidth
-                    name="ielts"
-                    label="IELTS"
-                    value={formValues.ielts}
-                    onChange={handleInputChange}
-                    margin="normal"
-                  />
-                </Grid>
+                {/*<Grid item xs={12} sm={6}>*/}
+                {/*  <TextField*/}
+                {/*    fullWidth*/}
+                {/*    name="qs_ranking"*/}
+                {/*    label="QS Ranking"*/}
+                {/*    value={formValues.qs_ranking}*/}
+                {/*    onChange={handleInputChange}*/}
+                {/*    margin="normal"*/}
+                {/*  />*/}
+                {/*  <TextField*/}
+                {/*      fullWidth*/}
+                {/*      name="the_ranking"*/}
+                {/*      label="THE Ranking"*/}
+                {/*      value={formValues.the_ranking}*/}
+                {/*      onChange={handleInputChange}*/}
+                {/*      margin="normal"*/}
+                {/*  />*/}
+                {/*  <TextField*/}
+                {/*      fullWidth*/}
+                {/*      name="arwu_ranking"*/}
+                {/*      label="ARWU Ranking"*/}
+                {/*      value={formValues.arwu_ranking}*/}
+                {/*      onChange={handleInputChange}*/}
+                {/*      margin="normal"*/}
+                {/*  />*/}
+                {/*</Grid>*/}
+                {/*<Grid item xs={12} sm={6}>*/}
+                {/*  <TextField*/}
+                {/*    fullWidth*/}
+                {/*    name="ielts"*/}
+                {/*    label="IELTS"*/}
+                {/*    value={formValues.ielts}*/}
+                {/*    onChange={handleInputChange}*/}
+                {/*    margin="normal"*/}
+                {/*  />*/}
+                {/*</Grid>*/}
               </Grid>
               <TextField
                 fullWidth
@@ -339,6 +378,54 @@ const UniversityReadUpdatePage = () => {
                   shrink: true,
                 }}
               />
+              <Box sx={{ mt: 2, mb: 2 }}>
+                <Typography variant="h6">Тесты:</Typography>
+                <TextField
+                    fullWidth
+                    name="toefl"
+                    label="TOEFL"
+                    value={formValues.toefl}
+                    onChange={handleInputChange}
+                    margin="normal"
+                />
+                <TextField
+                    fullWidth
+                    name="ielts"
+                    label="IELTS"
+                    value={formValues.ielts}
+                    onChange={handleInputChange}
+                    margin="normal"
+                />
+              </Box>
+              <Box sx={{ mt: 2, mb: 2 }}>
+                <Typography variant="h6">Рейтинги:</Typography>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+
+                      name="qs_ranking"
+                      label="QS Ranking"
+                      value={formValues.qs_ranking}
+                      onChange={handleInputChange}
+                      margin="normal"
+                  />
+                  <TextField
+
+                      name="the_ranking"
+                      label="THE Ranking"
+                      value={formValues.the_ranking}
+                      onChange={handleInputChange}
+                      margin="normal"
+                  />
+                  <TextField
+
+                      name="arwu_ranking"
+                      label="ARWU Ranking"
+                      value={formValues.arwu_ranking}
+                      onChange={handleInputChange}
+                      margin="normal"
+                  />
+                </Grid>
+              </Box>
               <Box sx={{ mt: 3 }}>
                 <Typography variant="h6">Стоимость Обучения:</Typography>
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>

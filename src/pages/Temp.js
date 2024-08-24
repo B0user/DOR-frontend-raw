@@ -155,6 +155,7 @@ const Temp = () => {
               <TableHead>
                 <TableRow>
                   <TableCell>Название</TableCell>
+                  <TableCell align="right">Статус</TableCell>
                   <TableCell align="right">Действия</TableCell>
                 </TableRow>
               </TableHead>
@@ -165,6 +166,9 @@ const Temp = () => {
                       {university.main.name}
                     </TableCell>
                     <TableCell align="right">
+                      {university.status_tag}
+                    </TableCell>
+                    <TableCell align="right">
                       <IconButton color="primary">
                         <Visibility onClick={() => handleRead(university._id, 'colleges')}/>
                       </IconButton>
@@ -172,6 +176,7 @@ const Temp = () => {
                         <Delete />
                       </IconButton>
                     </TableCell>
+
                   </TableRow>
                 ))}
                 {isAdding.university && (

@@ -32,8 +32,8 @@ const steps = [
   'Удобства и студенческая жизнь'
 ];
 
-const languages_list = ['английский', 'китайский', 'чешский', 'русский', 'испанский'];
-const countries = ['Казахстан', 'Россия', 'США', 'Китай', 'Чехия', 'Испания'];
+const languages_list = ['английский', 'китайский', 'чешский', 'русский', 'испанский', 'турецкий'];
+const countries = ['Казахстан', 'Россия', 'США', 'Китай', 'Чехия', 'Испания', 'Турция'];
 
 const UniversityUploadPage = () => {
   const axiosPrivate = useAxiosPrivate();
@@ -57,8 +57,8 @@ const UniversityUploadPage = () => {
         arwu_ranking: ''
       },
       ielts: '',
-      acceptance_percentage: '',
-      reviews: []
+      toefl: '',
+      reviews: [],
     },
     master: {
       languages: [],
@@ -94,8 +94,10 @@ const UniversityUploadPage = () => {
       acceptance_percentage: '',
       reviews: []
     },
+    reviews: [],
     location: '',
     contact_info: '',
+    visa_info: '',
     general_info: '',
     faculties: '',
     admission_info: '',
@@ -171,18 +173,37 @@ const UniversityUploadPage = () => {
 
   const handleUpload = async () => {
     const payload = {
-      name: formValues.name,
-      bachelor: formValues.bachelor,
-      master: formValues.master,
-      phd: formValues.phd,
+      // name: formValues.name,
+      // bachelor: formValues.bachelor,
+      // master: formValues.master,
+      // phd: formValues.phd,
+      main: {
+        name: formValues.name,
+        languages: formValues.bachelor.languages,
+        grants: formValues.bachelor.grants,
+        tuition_fee: formValues.bachelor.tuition_fee,
+        dual_degree_program: formValues.bachelor.dual_degree_program,
+        dual_major_program: formValues.bachelor.dual_major_program,
+        living_cost: formValues.bachelor.living_cost,
+        application_deadline: formValues.bachelor.application_deadline,
+        qs_ranking: formValues.bachelor.rankings.qs_ranking,
+        ielts: formValues.bachelor.ielts,
+        toefl: formValues.bachelor.toefl, //new
+        the_ranking: formValues.rankings.the_ranking, //new
+        arwu_ranking: formValues.rankings.arwu_ranking, //new
+      },
+      percentage_acceptance: formValues.bachelor.acceptance_percentage,
       location: formValues.location,
+      visa_info: formValues.visa_info,
       contact_info: formValues.contact_info,
       general_info: formValues.general_info,
       faculties: formValues.faculties,
       admission_info: formValues.admission_info,
       facilities: formValues.facilities,
       student_life: formValues.student_life,
-      images: formValues.images
+      images: formValues.images,
+      status_tag: "Одобрено",
+      reviews: formValues.bachelor.reviews,
     };
 
     try {

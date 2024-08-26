@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Container,
   Box,
@@ -19,7 +19,7 @@ import {
   Tabs,
   Tab
 } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
 
@@ -35,99 +35,160 @@ const steps = [
 const languages_list = ['английский', 'китайский', 'чешский', 'русский', 'испанский', 'турецкий'];
 const countries = ['Казахстан', 'Россия', 'США', 'Китай', 'Чехия', 'Испания', 'Турция'];
 
-const UniversityUploadPage = () => {
+const UniversityReadUpdatePage = () => {
   const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
+
+
+
   const [activeStep, setActiveStep] = useState(0);
   const [activeTab, setActiveTab] = useState(0);
-
   const [formValues, setFormValues] = useState({
-    name: '',
-    bachelor: {
-      languages: [],
-      grants: '',
-      tuition_fee: [],
-      dual_degree_program: '',
-      dual_major_program: '',
-      living_cost: [],
-      application_deadline: '',
-      rankings: {
-        qs_ranking: '',
-        the_ranking: '',
-        arwu_ranking: ''
-      },
-      ielts: '',
-      toefl: '',
-      reviews: [],
-    },
-    master: {
-      languages: [],
-      grants: '',
-      tuition_fee: [],
-      dual_degree_program: '',
-      dual_major_program: '',
-      living_cost: [],
-      application_deadline: '',
-      rankings: {
-        qs_ranking: '',
-        the_ranking: '',
-        arwu_ranking: ''
-      },
-      ielts: '',
-      acceptance_percentage: '',
-      reviews: []
-    },
-    phd: {
-      languages: [],
-      grants: '',
-      tuition_fee: [],
-      dual_degree_program: '',
-      dual_major_program: '',
-      living_cost: [],
-      application_deadline: '',
-      rankings: {
-        qs_ranking: '',
-        the_ranking: '',
-        arwu_ranking: ''
-      },
-      ielts: '',
-      acceptance_percentage: '',
-      reviews: []
-    },
-    reviews: [],
+    name:  '',
+
+    // Bachelor data
+    bachelor_languages:  [],
+    bachelor_grants:  '',
+    bachelor_tuition_fee:  ['', ''],
+    bachelor_dual_degree_program:  '',
+    bachelor_dual_major_program: '',
+    bachelor_living_cost:  ['',''],
+    bachelor_qs_ranking:  '',
+    bachelor_the_ranking:  '',
+    bachelor_arwu_ranking:  '',
+    bachelor_ielts:  '',
+    bachelor_reviews:  [],
+    bachelor_percentage_acceptance: '',
+    bachelor_application_deadline:  '',
+    bachelor_toefl: '',
+    // Master data
+    master_languages:  [],
+    master_grants:  '',
+    master_tuition_fee:  ['', ''],
+    master_dual_degree_program:  '',
+    master_dual_major_program:  '',
+    master_living_cost: ['', ''],
+    master_qs_ranking:  '',
+    master_the_ranking:  '',
+    master_arwu_ranking:  '',
+    master_ielts:  '',
+    master_reviews: [],
+    master_percentage_acceptance: '',
+    master_application_deadline:  '',
+    master_toefl:  '',
+
+    // PhD data
+    phd_languages:  [],
+    phd_grants:  '',
+    phd_tuition_fee:  ['', ''],
+    phd_dual_degree_program: '',
+    phd_dual_major_program: '',
+    phd_living_cost: ['', ''],
+    phd_qs_ranking:  '',
+    phd_the_ranking:  '',
+    phd_arwu_ranking:  '',
+    phd_ielts: '',
+    phd_reviews:  [],
+    phd_percentage_acceptance:  '',
+    phd_application_deadline:  '',
+    phd_toefl:  '',
+
+    // General university data
     location: '',
-    contact_info: '',
-    visa_info: '',
+    contact_info:  '',
     general_info: '',
-    faculties: '',
-    admission_info: '',
-    facilities: '',
-    student_life: '',
-    images: []
+    faculties:  '',
+    admission_info:  '',
+    facilities:  '',
+    student_life:  '',
+    city: '',
+    comments: [
+      '',
+      '',
+      '',
+      '',
+      '',
+      ''
+    ]
   });
 
-  const handleInputChange = (e, level) => {
-    const { name, value } = e.target;
-    setFormValues({
-      ...formValues,
-      [level]: {
-        ...formValues[level],
-        [name]: value
-      }
-    });
-  };
+  useEffect(() => {
 
-  const handleRankingsChange = (e, level) => {
+      setFormValues({
+        name:  ' ',
+
+        // Bachelor data
+        bachelor_languages:  [],
+        bachelor_grants:  ' ',
+        bachelor_tuition_fee:  [' ', ' '],
+        bachelor_dual_degree_program:  ' ',
+        bachelor_dual_major_program: ' ',
+        bachelor_living_cost:  [' ',' '],
+        bachelor_qs_ranking:  ' ',
+        bachelor_the_ranking:  ' ',
+        bachelor_arwu_ranking:  ' ',
+        bachelor_ielts:  ' ',
+        bachelor_reviews:  [],
+        bachelor_percentage_acceptance: ' ',
+        bachelor_application_deadline:  ' ',
+        bachelor_toefl: ' ',
+        // Master data
+        master_languages:  [],
+        master_grants:  ' ',
+        master_tuition_fee:  [' ', ' '],
+        master_dual_degree_program:  ' ',
+        master_dual_major_program:  ' ',
+        master_living_cost: [' ', ' '],
+        master_qs_ranking:  ' ',
+        master_the_ranking:  ' ',
+        master_arwu_ranking:  ' ',
+        master_ielts:  ' ',
+        master_reviews: [],
+        master_percentage_acceptance: ' ',
+        master_application_deadline:  ' ',
+        master_toefl:  ' ',
+
+        // PhD data
+        phd_languages:  [],
+        phd_grants:  ' ',
+        phd_tuition_fee:  [' ', ' '],
+        phd_dual_degree_program: ' ',
+        phd_dual_major_program: ' ',
+        phd_living_cost: [' ', ' '],
+        phd_qs_ranking:  ' ',
+        phd_the_ranking:  ' ',
+        phd_arwu_ranking:  ' ',
+        phd_ielts: ' ',
+        phd_reviews:  [],
+        phd_percentage_acceptance:  ' ',
+        phd_application_deadline:  ' ',
+        phd_toefl:  ' ',
+
+        // General university data
+        location: ' ',
+        contact_info:  ' ',
+        general_info: ' ',
+        faculties:  ' ',
+        admission_info:  ' ',
+        facilities:  ' ',
+        student_life:  ' ',
+        city: ' ',
+        comments: [
+           '',
+           '',
+           '',
+           '',
+           '',
+          ''
+        ]
+      });
+  }, []);
+
+  const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormValues({
       ...formValues,
-      [level]: {
-        ...formValues[level],
-        rankings: {
-          ...formValues[level].rankings,
-          [name]: value
-        }
-      }
+      [name]: value
     });
   };
 
@@ -140,79 +201,102 @@ const UniversityUploadPage = () => {
     });
   };
 
-  const handleSelectChange = (e, level) => {
+  const handleSelectChange = (e) => {
     const { name, value } = e.target;
     setFormValues({
       ...formValues,
-      [level]: {
-        ...formValues[level],
-        [name]: value
-      }
+      [name]: value
     });
   };
 
-  const handleTuitionFeeChange = (e, newValue, level) => {
+  const handleTuitionFeeChange = (e, newValue) => {
     setFormValues({
       ...formValues,
-      [level]: {
-        ...formValues[level],
-        tuition_fee: newValue
-      }
+      tuition_fee: newValue
     });
   };
 
-  const handleLivingCostChange = (e, newValue, level) => {
+  const handleLivingCostChange = (e, newValue) => {
     setFormValues({
       ...formValues,
-      [level]: {
-        ...formValues[level],
-        living_cost: newValue
-      }
+      living_cost: newValue
     });
   };
 
-  const handleUpload = async () => {
+  const handleSaveChanges = async () => {
     const payload = {
-      // name: formValues.name,
-      // bachelor: formValues.bachelor,
-      // master: formValues.master,
-      // phd: formValues.phd,
-      main: {
-        name: formValues.name,
-        languages: formValues.bachelor.languages,
-        grants: formValues.bachelor.grants,
-        tuition_fee: formValues.bachelor.tuition_fee,
-        dual_degree_program: formValues.bachelor.dual_degree_program,
-        dual_major_program: formValues.bachelor.dual_major_program,
-        living_cost: formValues.bachelor.living_cost,
-        application_deadline: formValues.bachelor.application_deadline,
-        qs_ranking: formValues.bachelor.rankings.qs_ranking,
-        ielts: formValues.bachelor.ielts,
-        toefl: formValues.bachelor.toefl, //new
-        the_ranking: formValues.rankings.the_ranking, //new
-        arwu_ranking: formValues.rankings.arwu_ranking, //new
+      bachelor: {
+        languages: formValues.bachelor_languages.length ? formValues.bachelor_languages : ['N/A'],
+        grants: formValues.bachelor_grants || 'N/A',
+        tuition_fee: formValues.bachelor_tuition_fee.map(val => val || 0),
+        dual_degree_program: formValues.bachelor_dual_degree_program || 'N/A',
+        dual_major_program: formValues.bachelor_dual_major_program || 'N/A',
+        living_cost: formValues.bachelor_living_cost.map(val => val || 0),
+        application_deadline: formValues.bachelor_application_deadline || null,
+        rankings: {
+          qs_ranking: formValues.bachelor_qs_ranking || 'N/A',
+          the_ranking: formValues.bachelor_the_ranking || 'N/A',
+          arwu_ranking: formValues.bachelor_arwu_ranking || 'N/A',
+        },
+        ielts: formValues.bachelor_ielts || 'N/A',
+        reviews: formValues.bachelor_reviews.length ? formValues.bachelor_reviews : [],
+        acceptance_percentage: formValues.bachelor_percentage_acceptance || 0,
+        toefl: formValues.bachelor_toefl || 'N/A',
       },
-      percentage_acceptance: formValues.bachelor.acceptance_percentage,
-      location: formValues.location,
-      visa_info: formValues.visa_info,
-      contact_info: formValues.contact_info,
-      general_info: formValues.general_info,
-      faculties: formValues.faculties,
-      admission_info: formValues.admission_info,
-      facilities: formValues.facilities,
-      student_life: formValues.student_life,
-      images: formValues.images,
-      status_tag: "Одобрено",
-      reviews: formValues.bachelor.reviews,
+      master: {
+        languages: formValues.master_languages.length ? formValues.master_languages : ['N/A'],
+        grants: formValues.master_grants || 'N/A',
+        tuition_fee: formValues.master_tuition_fee.map(val => val || 0),
+        dual_degree_program: formValues.master_dual_degree_program || 'N/A',
+        dual_major_program: formValues.master_dual_major_program || 'N/A',
+        living_cost: formValues.master_living_cost.map(val => val || 0),
+        application_deadline: formValues.master_application_deadline || null,
+        rankings: {
+          qs_ranking: formValues.master_qs_ranking || 'N/A',
+          the_ranking: formValues.master_the_ranking || 'N/A',
+          arwu_ranking: formValues.master_arwu_ranking || 'N/A',
+        },
+        ielts: formValues.master_ielts || 'N/A',
+        reviews: formValues.master_reviews.length ? formValues.master_reviews : [],
+        acceptance_percentage: formValues.master_percentage_acceptance || 0,
+        toefl: formValues.master_toefl || 'N/A',
+      },
+      phd: {
+        languages: formValues.phd_languages.length ? formValues.phd_languages : ['N/A'],
+        grants: formValues.phd_grants || 'N/A',
+        tuition_fee: formValues.phd_tuition_fee.map(val => val || 0),
+        dual_degree_program: formValues.phd_dual_degree_program || 'N/A',
+        dual_major_program: formValues.phd_dual_major_program || 'N/A',
+        living_cost: formValues.phd_living_cost.map(val => val || 0),
+        application_deadline: formValues.phd_application_deadline || null,
+        rankings: {
+          qs_ranking: formValues.phd_qs_ranking || 'N/A',
+          the_ranking: formValues.phd_the_ranking || 'N/A',
+          arwu_ranking: formValues.phd_arwu_ranking || 'N/A',
+        },
+        ielts: formValues.phd_ielts || 'N/A',
+        reviews: formValues.phd_reviews.length ? formValues.phd_reviews : [],
+        acceptance_percentage: formValues.phd_percentage_acceptance || 0,
+        toefl: formValues.phd_toefl || 'N/A',
+      },
+      location: formValues.location || 'N/A',
+      contact_info: formValues.contact_info || 'N/A',
+      general_info: formValues.general_info || 'N/A',
+      faculties: formValues.faculties || 'N/A',
+      admission_info: formValues.admission_info || 'N/A',
+      facilities: formValues.facilities || 'N/A',
+      student_life: formValues.student_life || 'N/A',
+      city: formValues.city || 'N/A',
+      status_tag: "Одобрено"
     };
 
     try {
-      await axiosPrivate.post('/universities', payload, {
+      await axiosPrivate.post(`/universities`, payload, {
         headers: {
           'Content-Type': 'application/json'
         }
       });
-      toast.success('Университет успешно добавлен!', {
+      toast.success('Университет успешно создан!', {
         position: "top-right",
         autoClose: 3000
       });
@@ -220,17 +304,17 @@ const UniversityUploadPage = () => {
         navigate('/dashboard');
       }, 3000);
     } catch (error) {
-      toast.error('Ошибка при добавлении университета. Попробуйте снова.', {
+      toast.error('Ошибка при создании университета. Попробуйте снова.', {
         position: "top-right",
         autoClose: 3000
       });
-      console.error('Error adding university:', error);
+      console.error('Error updating university:', error);
     }
   };
 
   const handleNext = async () => {
     if (activeStep === steps.length - 1) {
-      await handleUpload();
+      await handleSaveChanges();
     } else {
       setActiveStep((prevActiveStep) => prevActiveStep + 1);
     }
@@ -246,148 +330,365 @@ const UniversityUploadPage = () => {
   };
 
   return (
-    <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-      <Paper elevation={3} sx={{ p: 3, borderRadius: 2 }}>
-        <Typography variant="h4" component="h1" gutterBottom>
-          Добавить Университет
-        </Typography>
-        <Stepper activeStep={activeStep} alternativeLabel>
-          {steps.map((label) => (
-            <Step key={label}>
-              <StepLabel>{label}</StepLabel>
-            </Step>
-          ))}
-        </Stepper>
-        <Box sx={{ mt: 3 }}>
-          {activeStep === 0 && (
-            <Box>
-              <Typography variant="h6" gutterBottom>
-                Основная информация:
-              </Typography>
-              <TextField
-                fullWidth
-                name="name"
-                label="Название университета"
-                value={formValues.name}
-                onChange={(e) => setFormValues({ ...formValues, name: e.target.value })}
-                margin="normal"
-              />
-              <Tabs value={activeTab} onChange={handleTabChange} aria-label="basic tabs example">
-                <Tab label="Bachelor’s" />
-                <Tab label="Master’s" />
-                <Tab label="PhD" />
-              </Tabs>
-              <TabPanel value={activeTab} index={0}>
-                <TextField
-                  fullWidth
-                  name="languages"
-                  label="Языки обучения"
-                  value={formValues.bachelor.languages}
-                  onChange={(e) => handleInputChange(e, 'bachelor')}
-                  margin="normal"
-                />
-                <TextField
-                  fullWidth
-                  name="qs_ranking"
-                  label="QS Ranking"
-                  value={formValues.bachelor.rankings.qs_ranking}
-                  onChange={(e) => handleRankingsChange(e, 'bachelor')}
-                  margin="normal"
-                />
-                {/* Add other fields similarly */}
-              </TabPanel>
-              <TabPanel value={activeTab} index={1}>
-                <TextField
-                  fullWidth
-                  name="languages"
-                  label="Языки обучения"
-                  value={formValues.master.languages}
-                  onChange={(e) => handleInputChange(e, 'master')}
-                  margin="normal"
-                />
-                <TextField
-                  fullWidth
-                  name="qs_ranking"
-                  label="QS Ranking"
-                  value={formValues.master.rankings.qs_ranking}
-                  onChange={(e) => handleRankingsChange(e, 'master')}
-                  margin="normal"
-                />
-                {/* Add other fields similarly */}
-              </TabPanel>
-              <TabPanel value={activeTab} index={2}>
-                <TextField
-                  fullWidth
-                  name="languages"
-                  label="Языки обучения"
-                  value={formValues.phd.languages}
-                  onChange={(e) => handleInputChange(e, 'phd')}
-                  margin="normal"
-                />
-                <TextField
-                  fullWidth
-                  name="qs_ranking"
-                  label="QS Ranking"
-                  value={formValues.phd.rankings.qs_ranking}
-                  onChange={(e) => handleRankingsChange(e, 'phd')}
-                  margin="normal"
-                />
-                {/* Add other fields similarly */}
-              </TabPanel>
-            </Box>
-          )}
-          {activeStep > 0 && activeStep < steps.length && (
-            <Box>
-              <Typography variant="h6" gutterBottom>
-                {steps[activeStep]}:
-              </Typography>
-              <TextField
-                fullWidth
-                multiline
-                rows={5}
-                name={`comments-${activeStep}`}
-                label="Комментарии"
-                value={formValues.comments[activeStep]}
-                onChange={(e) => handleCommentsChange(activeStep, e.target.value)}
-                margin="normal"
-              />
-            </Box>
-          )}
-        </Box>
-        <Box sx={{ mt: 3, justifyContent: 'space-between', display: 'flex' }}>
-          <Button variant="outlined" color="secondary" sx={{ mr: 2 }} onClick={handleBack}>
-            Назад
-          </Button>
-          <Button variant="contained" color="success" onClick={handleNext}>
-            {activeStep === steps.length - 1 ? 'Завершить' : 'Далее'}
-          </Button>
-          <Button variant="contained" color="warning" sx={{ ml: 2 }} onClick={handleUpload}>
-            Пропустить все и загрузить
-          </Button>
-        </Box>
-      </Paper>
-    </Container>
+      <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+        <Paper elevation={3} sx={{ p: 3, borderRadius: 2 }}>
+          <Typography variant="h4" component="h1" gutterBottom>
+            Просмотр и Обновление Университета
+          </Typography>
+          <Stepper activeStep={activeStep} alternativeLabel>
+            {steps.map((label) => (
+                <Step key={label}>
+                  <StepLabel>{label}</StepLabel>
+                </Step>
+            ))}
+          </Stepper>
+          <Box sx={{ mt: 3 }}>
+            {activeStep === 0 && (
+                <>
+                  <Typography variant="h6" gutterBottom>
+                    Основная информация:
+                  </Typography>
+                  <TextField
+                      fullWidth
+                      name="name"
+                      label="Название университета"
+                      value={formValues.name}
+                      onChange={handleInputChange}
+                      margin="normal"
+                  />
+                  <Autocomplete
+                      freeSolo
+                      options={countries}
+                      getOptionLabel={(option) => option}
+                      renderInput={(params) => (
+                          <TextField
+                              {...params}
+                              label="Страна"
+                              margin="normal"
+                              fullWidth
+                              name="country"
+                              value={formValues.country}
+                              onChange={handleInputChange}
+                          />
+                      )}
+                      value={formValues.country}
+                      onChange={(event, newValue) => {
+                        setFormValues({
+                          ...formValues,
+                          country: newValue || ''
+                        });
+                      }}
+                  />
+                  <TextField
+                      label="Город"
+                      margin="normal"
+                      fullWidth
+                      name="city"
+                      value={formValues.city}
+                      onChange={handleInputChange}
+                  />
+                  <Tabs value={activeTab} onChange={handleTabChange}>
+                    <Tab label="Бакалавриат" />
+                    <Tab label="Магистратура" />
+                    <Tab label="PhD" />
+                  </Tabs>
+                  <TabPanel value={activeTab} index={0}>
+                    {renderProgramFields('bachelor', formValues, setFormValues)}
+                  </TabPanel>
+                  <TabPanel value={activeTab} index={1}>
+                    {renderProgramFields('master', formValues, setFormValues)}
+                  </TabPanel>
+                  <TabPanel value={activeTab} index={2}>
+                    {renderProgramFields('phd', formValues, setFormValues)}
+                  </TabPanel>
+                </>
+            )}
+            {activeStep > 0 && activeStep < steps.length && (
+                <Box>
+                  <Typography variant="h6" gutterBottom>
+                    {steps[activeStep]}:
+                  </Typography>
+                  <TextField
+                      fullWidth
+                      multiline
+                      rows={5}
+                      name={`comments-${activeStep}`}
+                      label="Комментарии"
+                      value={formValues.comments[activeStep]}
+                      onChange={(e) => handleCommentsChange(activeStep, e.target.value)}
+                      margin="normal"
+                  />
+                </Box>
+            )}
+          </Box>
+          <Box sx={{ mt: 3, justifyContent: 'space-between', display: 'flex' }}>
+            <Button variant="outlined" color="secondary" sx={{ mr: 2 }} onClick={handleBack}>
+              Назад
+            </Button>
+            <Button variant="contained" color="success" onClick={handleNext}>
+              {activeStep === steps.length - 1 ? 'Сохранить изменения' : 'Далее'}
+            </Button>
+          </Box>
+        </Paper>
+      </Container>
   );
 };
+
+export default UniversityReadUpdatePage;
 
 const TabPanel = (props) => {
   const { children, value, index, ...other } = props;
 
   return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
-      {...other}
-    >
-      {value === index && (
-        <Box sx={{ p: 3 }}>
-          <Typography>{children}</Typography>
-        </Box>
-      )}
-    </div>
+      <div
+          role="tabpanel"
+          hidden={value !== index}
+          id={`tabpanel-${index}`}
+          aria-labelledby={`tab-${index}`}
+          {...other}
+      >
+        {value === index && (
+            <Box sx={{ p: 3 }}>
+              <Typography>{children}</Typography>
+            </Box>
+        )}
+      </div>
   );
 };
 
-export default UniversityUploadPage;
+const renderProgramFields = (programType, formValues, setFormValues) => {
+  const formValuesPrefix = `${programType}_`;
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormValues({
+      ...formValues,
+      [name]: value
+    });
+  };
+
+  const handleSelectChange = (e) => {
+    const { name, value } = e.target;
+    setFormValues({
+      ...formValues,
+      [name]: value
+    });
+  };
+
+  return (
+      <>
+        <Box sx={{ mt: 2, mb: 2 }}>
+          <Typography variant="h6">Язык обучения:</Typography>
+          <Autocomplete
+              multiple
+              freeSolo
+              options={languages_list}
+              value={formValues[`${formValuesPrefix}languages`]}
+              onChange={(event, newValue) => {
+                setFormValues({
+                  ...formValues,
+                  [`${formValuesPrefix}languages`]: newValue
+                });
+              }}
+              renderTags={(value, getTagProps) =>
+                  value.map((option, index) => (
+                      <Chip
+                          variant="outlined"
+                          label={option}
+                          {...getTagProps({ index })}
+                      />
+                  ))
+              }
+              renderInput={(params) => (
+                  <TextField
+                      {...params}
+                      variant="standard"
+                      label="Добавить язык"
+                      placeholder="Язык"
+                  />
+              )}
+          />
+        </Box>
+        <Grid container spacing={2}>
+          <Grid item xs={12} sm={6}>
+            <FormControl fullWidth margin="normal">
+              <InputLabel>Гранты</InputLabel>
+              <Select
+                  name={`${formValuesPrefix}grants`}
+                  value={formValues[`${formValuesPrefix}grants`]}
+                  onChange={handleSelectChange}
+              >
+                <MenuItem value="Да">Да</MenuItem>
+                <MenuItem value="Нет">Нет</MenuItem>
+              </Select>
+            </FormControl>
+          </Grid>
+        </Grid>
+        <Grid container spacing={2}>
+          <Grid item xs={12} sm={6}>
+            <FormControl fullWidth margin="normal">
+              <InputLabel>Программа двойных дипломов</InputLabel>
+              <Select
+                  name={`${formValuesPrefix}dual_degree_program`}
+                  value={formValues[`${formValuesPrefix}dual_degree_program`]}
+                  onChange={handleSelectChange}
+              >
+                <MenuItem value="Да">Да</MenuItem>
+                <MenuItem value="Нет">Нет</MenuItem>
+              </Select>
+            </FormControl>
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <FormControl fullWidth margin="normal">
+              <InputLabel>Программа двойных специальностей</InputLabel>
+              <Select
+                  name={`${formValuesPrefix}dual_major_program`}
+                  value={formValues[`${formValuesPrefix}dual_major_program`]}
+                  onChange={handleSelectChange}
+              >
+                <MenuItem value="Да">Да</MenuItem>
+                <MenuItem value="Нет">Нет</MenuItem>
+              </Select>
+            </FormControl>
+          </Grid>
+        </Grid>
+        <Grid container spacing={2}>
+
+          <Grid item xs={12} sm={6}>
+            <TextField
+                name={`${formValuesPrefix}ielts`}
+                label="IELTS"
+                value={formValues[`${formValuesPrefix}ielts`]}
+                onChange={handleInputChange}
+                margin="normal"
+                fullWidth
+            />
+            <TextField
+                name={`${formValuesPrefix}toefl`}
+                label="TOEFL"
+                value={formValues[`${formValuesPrefix}toefl`]}
+                onChange={handleInputChange}
+                margin="normal"
+                fullWidth
+            />
+          </Grid>
+        </Grid>
+        <TextField
+            fullWidth
+            name={`${formValuesPrefix}application_deadline`}
+            label="Сроки подачи"
+            type="date"
+            value={formValues[`${formValuesPrefix}application_deadline`]}
+            onChange={handleInputChange}
+            margin="normal"
+            InputLabelProps={{
+              shrink: true,
+            }}
+        />
+
+        <Grid container spacing={2}>
+
+          <Grid item xs={12} sm={6}>
+            <TextField
+                name={`${formValuesPrefix}tuition_fee_min`}
+                label="Стоимость обучения (от)"
+                value={formValues[`${formValuesPrefix}tuition_fee`][0] || ''}
+                onChange={(e) => {
+                  const newValue = [e.target.value, formValues[`${formValuesPrefix}tuition_fee`][1]];
+                  setFormValues({
+                    ...formValues,
+                    [`${formValuesPrefix}tuition_fee`]: newValue
+                  });
+                }}
+                margin="normal"
+                fullWidth
+                type="number"
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField
+                name={`${formValuesPrefix}tuition_fee_max`}
+                label="Стоимость обучения (до)"
+                value={formValues[`${formValuesPrefix}tuition_fee`][1] || ''}
+                onChange={(e) => {
+                  const newValue = [formValues[`${formValuesPrefix}tuition_fee`][0], e.target.value];
+                  setFormValues({
+                    ...formValues,
+                    [`${formValuesPrefix}tuition_fee`]: newValue
+                  });
+                }}
+                margin="normal"
+                fullWidth
+                type="number"
+            />
+          </Grid>
+
+          <Grid item xs={12} sm={6}>
+            <TextField
+                name={`${formValuesPrefix}living_cost_min`}
+                label="Стоимость проживания (от)"
+                value={formValues[`${formValuesPrefix}living_cost`][0] || ''}
+                onChange={(e) => {
+                  const newValue = [e.target.value, formValues[`${formValuesPrefix}living_cost`][1]];
+                  setFormValues({
+                    ...formValues,
+                    [`${formValuesPrefix}living_cost`]: newValue
+                  });
+                }}
+                margin="normal"
+                fullWidth
+                type="number"
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField
+                name={`${formValuesPrefix}living_cost_max`}
+                label="Стоимость проживания (до)"
+                value={formValues[`${formValuesPrefix}living_cost`][1] || ''}
+                onChange={(e) => {
+                  const newValue = [formValues[`${formValuesPrefix}living_cost`][0], e.target.value];
+                  setFormValues({
+                    ...formValues,
+                    [`${formValuesPrefix}living_cost`]: newValue
+                  });
+                }}
+                margin="normal"
+                fullWidth
+                type="number"
+            />
+          </Grid>
+        </Grid>
+        <Box sx={{ mt: 3, mb: 3 }}>
+          <Typography variant="h6">Рейтинги:</Typography>
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={4}>
+              <TextField
+                  name={`${formValuesPrefix}the_ranking`}
+                  label="THE Ranking"
+                  value={formValues[`${formValuesPrefix}the_ranking`]}
+                  onChange={handleInputChange}
+                  margin="normal"
+              />
+              <TextField
+                  name={`${formValuesPrefix}arwu_ranking`}
+                  label="ARWU Ranking"
+                  value={formValues[`${formValuesPrefix}arwu_ranking`]}
+                  onChange={handleInputChange}
+                  margin="normal"
+              />
+              <TextField
+                  name={`${formValuesPrefix}qs_ranking`}
+                  label="QS Ranking"
+                  value={formValues[`${formValuesPrefix}qs_ranking`]}
+                  onChange={handleInputChange}
+                  margin="normal"
+
+              />
+            </Grid>
+
+          </Grid>
+        </Box>
+      </>
+  );
+};
+

@@ -119,10 +119,10 @@ const UniversityReadUpdatePage = () => {
 
         // Bachelor data
         bachelor_languages:  [],
-        bachelor_grants:  ' ',
+        bachelor_grants:  'Нет',
         bachelor_tuition_fee:  [' ', ' '],
-        bachelor_dual_degree_program:  ' ',
-        bachelor_dual_major_program: ' ',
+        bachelor_dual_degree_program:  'Нет',
+        bachelor_dual_major_program: 'Нет',
         bachelor_living_cost:  [' ',' '],
         bachelor_qs_ranking:  ' ',
         bachelor_the_ranking:  ' ',
@@ -134,10 +134,10 @@ const UniversityReadUpdatePage = () => {
         bachelor_toefl: ' ',
         // Master data
         master_languages:  [],
-        master_grants:  ' ',
+        master_grants:  'Нет',
         master_tuition_fee:  [' ', ' '],
-        master_dual_degree_program:  ' ',
-        master_dual_major_program:  ' ',
+        master_dual_degree_program:  'Нет',
+        master_dual_major_program:  'Нет',
         master_living_cost: [' ', ' '],
         master_qs_ranking:  ' ',
         master_the_ranking:  ' ',
@@ -150,10 +150,10 @@ const UniversityReadUpdatePage = () => {
 
         // PhD data
         phd_languages:  [],
-        phd_grants:  ' ',
+        phd_grants:  'Нет',
         phd_tuition_fee:  [' ', ' '],
-        phd_dual_degree_program: ' ',
-        phd_dual_major_program: ' ',
+        phd_dual_degree_program: 'Нет',
+        phd_dual_major_program: 'Нет',
         phd_living_cost: [' ', ' '],
         phd_qs_ranking:  ' ',
         phd_the_ranking:  ' ',
@@ -224,73 +224,83 @@ const UniversityReadUpdatePage = () => {
   };
 
   const handleSaveChanges = async () => {
+    const sanitizeValue = (value, defaultValue) => {
+      if (value === '' || value === undefined || value === null) {
+        return defaultValue;
+      }
+      return value;
+    };
+    
     const payload = {
       bachelor: {
         languages: formValues.bachelor_languages.length ? formValues.bachelor_languages : ['N/A'],
-        grants: formValues.bachelor_grants || 'N/A',
-        tuition_fee: formValues.bachelor_tuition_fee.map(val => val || 0),
-        dual_degree_program: formValues.bachelor_dual_degree_program || 'N/A',
-        dual_major_program: formValues.bachelor_dual_major_program || 'N/A',
-        living_cost: formValues.bachelor_living_cost.map(val => val || 0),
+        grants: sanitizeValue(formValues.bachelor_grants, 'N/A'),
+        tuition_fee: formValues.bachelor_tuition_fee || [' ', ' '],
+        dual_degree_program: sanitizeValue(formValues.bachelor_dual_degree_program, 'N/A'),
+        dual_major_program: sanitizeValue(formValues.bachelor_dual_major_program, 'N/A'),
+        living_cost: formValues.bachelor_living_cost.length ? formValues.bachelor_living_cost : ['', ''],
         application_deadline: formValues.bachelor_application_deadline || null,
         rankings: {
-          qs_ranking: formValues.bachelor_qs_ranking || 'N/A',
-          the_ranking: formValues.bachelor_the_ranking || 'N/A',
-          arwu_ranking: formValues.bachelor_arwu_ranking || 'N/A',
+          qs_ranking: sanitizeValue(formValues.bachelor_qs_ranking, 'N/A'),
+          the_ranking: sanitizeValue(formValues.bachelor_the_ranking, 'N/A'),
+          arwu_ranking: sanitizeValue(formValues.bachelor_arwu_ranking, 'N/A'),
         },
-        ielts: formValues.bachelor_ielts || 'N/A',
+        ielts: sanitizeValue(formValues.bachelor_ielts, 'N/A'),
         reviews: formValues.bachelor_reviews.length ? formValues.bachelor_reviews : [],
-        acceptance_percentage: formValues.bachelor_percentage_acceptance || 0,
-        toefl: formValues.bachelor_toefl || 'N/A',
+        acceptance_percentage: sanitizeValue(formValues.bachelor_percentage_acceptance, 0),
+        toefl: sanitizeValue(formValues.bachelor_toefl, 'N/A'),
       },
       master: {
         languages: formValues.master_languages.length ? formValues.master_languages : ['N/A'],
-        grants: formValues.master_grants || 'N/A',
-        tuition_fee: formValues.master_tuition_fee.map(val => val || 0),
-        dual_degree_program: formValues.master_dual_degree_program || 'N/A',
-        dual_major_program: formValues.master_dual_major_program || 'N/A',
-        living_cost: formValues.master_living_cost.map(val => val || 0),
+        grants: sanitizeValue(formValues.master_grants, 'N/A'),
+        tuition_fee: formValues.master_tuition_fee || [' ', ' '],
+        dual_degree_program: sanitizeValue(formValues.master_dual_degree_program, 'N/A'),
+        dual_major_program: sanitizeValue(formValues.master_dual_major_program, 'N/A'),
+        living_cost: formValues.master_living_cost.length ? formValues.master_living_cost : ['', ''],
         application_deadline: formValues.master_application_deadline || null,
         rankings: {
-          qs_ranking: formValues.master_qs_ranking || 'N/A',
-          the_ranking: formValues.master_the_ranking || 'N/A',
-          arwu_ranking: formValues.master_arwu_ranking || 'N/A',
+          qs_ranking: sanitizeValue(formValues.master_qs_ranking, 'N/A'),
+          the_ranking: sanitizeValue(formValues.master_the_ranking, 'N/A'),
+          arwu_ranking: sanitizeValue(formValues.master_arwu_ranking, 'N/A'),
         },
-        ielts: formValues.master_ielts || 'N/A',
+        ielts: sanitizeValue(formValues.master_ielts, 'N/A'),
         reviews: formValues.master_reviews.length ? formValues.master_reviews : [],
-        acceptance_percentage: formValues.master_percentage_acceptance || 0,
-        toefl: formValues.master_toefl || 'N/A',
+        acceptance_percentage: sanitizeValue(formValues.master_percentage_acceptance, 0),
+        toefl: sanitizeValue(formValues.master_toefl, 'N/A'),
       },
       phd: {
         languages: formValues.phd_languages.length ? formValues.phd_languages : ['N/A'],
-        grants: formValues.phd_grants || 'N/A',
-        tuition_fee: formValues.phd_tuition_fee.map(val => val || 0),
-        dual_degree_program: formValues.phd_dual_degree_program || 'N/A',
-        dual_major_program: formValues.phd_dual_major_program || 'N/A',
-        living_cost: formValues.phd_living_cost.map(val => val || 0),
+        grants: sanitizeValue(formValues.phd_grants, 'N/A'),
+        tuition_fee: formValues.phd_tuition_fee || [' ', ' '],
+        dual_degree_program: sanitizeValue(formValues.phd_dual_degree_program, 'N/A'),
+        dual_major_program: sanitizeValue(formValues.phd_dual_major_program, 'N/A'),
+        living_cost: formValues.phd_living_cost.length ? formValues.phd_living_cost : ['', ''], 
         application_deadline: formValues.phd_application_deadline || null,
         rankings: {
-          qs_ranking: formValues.phd_qs_ranking || 'N/A',
-          the_ranking: formValues.phd_the_ranking || 'N/A',
-          arwu_ranking: formValues.phd_arwu_ranking || 'N/A',
+          qs_ranking: sanitizeValue(formValues.phd_qs_ranking, 'N/A'),
+          the_ranking: sanitizeValue(formValues.phd_the_ranking, 'N/A'),
+          arwu_ranking: sanitizeValue(formValues.phd_arwu_ranking, 'N/A'),
         },
-        ielts: formValues.phd_ielts || 'N/A',
+        ielts: sanitizeValue(formValues.phd_ielts, 'N/A'),
         reviews: formValues.phd_reviews.length ? formValues.phd_reviews : [],
-        acceptance_percentage: formValues.phd_percentage_acceptance || 0,
-        toefl: formValues.phd_toefl || 'N/A',
+        acceptance_percentage: sanitizeValue(formValues.phd_percentage_acceptance, 0),
+        toefl: sanitizeValue(formValues.phd_toefl, 'N/A'),  
       },
-      location: formValues.location || 'N/A',
-      contact_info: formValues.contact_info || 'N/A',
-      general_info: formValues.general_info || 'N/A',
-      faculties: formValues.faculties || 'N/A',
-      admission_info: formValues.admission_info || 'N/A',
-      facilities: formValues.facilities || 'N/A',
-      student_life: formValues.student_life || 'N/A',
-      city: formValues.city || 'N/A',
+      name: formValues.name,
+      location: sanitizeValue(formValues.location, 'N/A'),
+      contact_info: sanitizeValue(formValues.contact_info, 'N/A'),
+      general_info: sanitizeValue(formValues.general_info, 'N/A'),
+      faculties: sanitizeValue(formValues.faculties, 'N/A'),
+      admission_info: sanitizeValue(formValues.admission_info, 'N/A'),
+      facilities: sanitizeValue(formValues.facilities, 'N/A'),
+      student_life: sanitizeValue(formValues.student_life, 'N/A'),
+      city: sanitizeValue(formValues.city, 'N/A'),
       status_tag: "Одобрено"
     };
+    
 
     try {
+      console.log(payload);
       await axiosPrivate.post(`/universities`, payload, {
         headers: {
           'Content-Type': 'application/json'

@@ -171,8 +171,32 @@ const Temp = () => {
     setCurrentPage(1);
   };
   console.log(data);
-  const handleDelete = (id, type) => {
-    // Delete logic here
+  const handleDelete = async (id, type) => {
+    try {
+      await axiosPrivate.post(`/universities`, payload, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      
+      toast.success('Университет успешно создан!', {
+        position: "top-right",
+        autoClose: 3000
+      });
+      
+      setTimeout(() => {
+        navigate('/dashboard');
+      }, 3000);
+    } catch (error) {
+      toast.error('Ошибка при создании университета. Попробуйте снова.', {
+        position: "top-right",
+        autoClose: 3000
+      });
+      
+      console.error('Error creating university:', error);
+    }
+    
+
     console.log(`Delete ${type} with id ${id}`);
   };
 

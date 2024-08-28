@@ -58,7 +58,7 @@ const UniversityReadUpdatePage = () => {
     bachelor_arwu_ranking:  '',
     bachelor_ielts:  '',
     bachelor_reviews:  [],
-    bachelor_percentage_acceptance: '',
+    bachelor_acceptance_percentage: '',
     bachelor_application_deadline:  '',
     bachelor_toefl: '',
     // Master data
@@ -73,7 +73,7 @@ const UniversityReadUpdatePage = () => {
     master_arwu_ranking:  '',
     master_ielts:  '',
     master_reviews: [],
-    master_percentage_acceptance: '',
+    master_acceptance_percentage: '',
     master_application_deadline:  '',
     master_toefl:  '',
 
@@ -89,7 +89,7 @@ const UniversityReadUpdatePage = () => {
     phd_arwu_ranking:  '',
     phd_ielts: '',
     phd_reviews:  [],
-    phd_percentage_acceptance:  '',
+    phd_acceptance_percentage:  '',
     phd_application_deadline:  '',
     phd_toefl:  '',
 
@@ -129,7 +129,7 @@ const UniversityReadUpdatePage = () => {
         bachelor_arwu_ranking:  ' ',
         bachelor_ielts:  ' ',
         bachelor_reviews:  [],
-        bachelor_percentage_acceptance: ' ',
+        bachelor_acceptance_percentage: ' ',
         bachelor_application_deadline:  ' ',
         bachelor_toefl: ' ',
         // Master data
@@ -144,7 +144,7 @@ const UniversityReadUpdatePage = () => {
         master_arwu_ranking:  ' ',
         master_ielts:  ' ',
         master_reviews: [],
-        master_percentage_acceptance: ' ',
+        master_acceptance_percentage: ' ',
         master_application_deadline:  ' ',
         master_toefl:  ' ',
 
@@ -160,7 +160,7 @@ const UniversityReadUpdatePage = () => {
         phd_arwu_ranking:  ' ',
         phd_ielts: ' ',
         phd_reviews:  [],
-        phd_percentage_acceptance:  ' ',
+        phd_acceptance_percentage:  ' ',
         phd_application_deadline:  ' ',
         phd_toefl:  ' ',
 
@@ -247,7 +247,7 @@ const UniversityReadUpdatePage = () => {
         },
         ielts: sanitizeValue(formValues.bachelor_ielts, 'N/A'),
         reviews: formValues.bachelor_reviews.length ? formValues.bachelor_reviews : [],
-        acceptance_percentage: sanitizeValue(formValues.bachelor_percentage_acceptance, 0),
+        acceptance_percentage: sanitizeValue(formValues.bachelor_acceptance_percentage, 0),
         toefl: sanitizeValue(formValues.bachelor_toefl, 'N/A'),
       },
       master: {
@@ -265,7 +265,7 @@ const UniversityReadUpdatePage = () => {
         },
         ielts: sanitizeValue(formValues.master_ielts, 'N/A'),
         reviews: formValues.master_reviews.length ? formValues.master_reviews : [],
-        acceptance_percentage: sanitizeValue(formValues.master_percentage_acceptance, 0),
+        acceptance_percentage: sanitizeValue(formValues.master_acceptance_percentage, 0),
         toefl: sanitizeValue(formValues.master_toefl, 'N/A'),
       },
       phd: {
@@ -283,22 +283,27 @@ const UniversityReadUpdatePage = () => {
         },
         ielts: sanitizeValue(formValues.phd_ielts, 'N/A'),
         reviews: formValues.phd_reviews.length ? formValues.phd_reviews : [],
-        acceptance_percentage: sanitizeValue(formValues.phd_percentage_acceptance, 0),
+        acceptance_percentage: sanitizeValue(formValues.phd_acceptance_percentage, 0),
         toefl: sanitizeValue(formValues.phd_toefl, 'N/A'),  
       },
       name: formValues.name,
       location: sanitizeValue(formValues.location, 'N/A'),
-      contact_info: sanitizeValue(formValues.contact_info, 'N/A'),
-      general_info: sanitizeValue(formValues.general_info, 'N/A'),
-      faculties: sanitizeValue(formValues.faculties, 'N/A'),
-      admission_info: sanitizeValue(formValues.admission_info, 'N/A'),
+      contact_info: sanitizeValue(formValues.comments[0], 'N/A'),
+      general_info: sanitizeValue(formValues.comments[1], 'N/A'),
+      faculties: sanitizeValue(formValues.comments[2], 'N/A'),
+      admission_info: sanitizeValue(formValues.comments[3], 'N/A'),
       facilities: sanitizeValue(formValues.facilities, 'N/A'),
-      student_life: sanitizeValue(formValues.student_life, 'N/A'),
+      student_life: sanitizeValue(formValues.comments[4], 'N/A'),
       city: sanitizeValue(formValues.city, 'N/A'),
       status_tag: "Одобрено"
     };
-    
 
+    // contact_info: formValues.comments[0],
+    //     general_info: formValues.comments[1],
+    //     faculties: formValues.comments[2],
+    //     admission_info: formValues.comments[3],
+    //     facilities: formValues.facilities,
+    //     student_life: formValues.comments[4],
     try {
       console.log(payload);
       await axiosPrivate.post(`/universities`, payload, {
@@ -376,16 +381,16 @@ const UniversityReadUpdatePage = () => {
                               label="Страна"
                               margin="normal"
                               fullWidth
-                              name="country"
-                              value={formValues.country}
+                              name="location"
+                              value={formValues.location}
                               onChange={handleInputChange}
                           />
                       )}
-                      value={formValues.country}
+                      value={formValues.location}
                       onChange={(event, newValue) => {
                         setFormValues({
                           ...formValues,
-                          country: newValue || ''
+                          location: newValue || ''
                         });
                       }}
                   />
@@ -577,6 +582,14 @@ const renderProgramFields = (programType, formValues, setFormValues) => {
                 name={`${formValuesPrefix}toefl`}
                 label="TOEFL"
                 value={formValues[`${formValuesPrefix}toefl`]}
+                onChange={handleInputChange}
+                margin="normal"
+                fullWidth
+            />
+            <TextField
+                name={`${formValuesPrefix}acceptance_percentage`}
+                label="Процент поступления"
+                value={formValues[`${formValuesPrefix}acceptance_percentage`]}
                 onChange={handleInputChange}
                 margin="normal"
                 fullWidth

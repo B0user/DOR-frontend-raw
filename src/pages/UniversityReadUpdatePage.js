@@ -46,69 +46,124 @@ const UniversityReadUpdatePage = () => {
   const [activeStep, setActiveStep] = useState(0);
   const [activeTab, setActiveTab] = useState(0);
   const [formValues, setFormValues] = useState({
-    name: '',
-    country: '',
-    languages: [],
-    grants: '',
-    tuition_fee: [],
-    dual_degree_program: '',
-    dual_major_program: '',
-    living_cost: [],
-    qs_ranking: '',
-    ielts: '',
-    application_deadline: '',
-    comments: ['', '', '', '', '', '']
+    name:  ' ',
+
+    // Bachelor data
+    bachelor_languages:  [],
+    bachelor_grants:  'Нет',
+    bachelor_tuition_fee:  [' ', ' '],
+    bachelor_dual_degree_program:  'Нет',
+    bachelor_dual_major_program: 'Нет',
+    bachelor_living_cost:  [' ',' '],
+    bachelor_qs_ranking:  ' ',
+    bachelor_the_ranking:  ' ',
+    bachelor_arwu_ranking:  ' ',
+    bachelor_ielts:  ' ',
+    bachelor_reviews:  [],
+    bachelor_acceptance_percentage: ' ',
+    bachelor_application_deadline:  ' ',
+    bachelor_toefl: ' ',
+    // Master data
+    master_languages:  [],
+    master_grants:  'Нет',
+    master_tuition_fee:  [' ', ' '],
+    master_dual_degree_program:  'Нет',
+    master_dual_major_program:  'Нет',
+    master_living_cost: [' ', ' '],
+    master_qs_ranking:  ' ',
+    master_the_ranking:  ' ',
+    master_arwu_ranking:  ' ',
+    master_ielts:  ' ',
+    master_reviews: [],
+    master_acceptance_percentage: ' ',
+    master_application_deadline:  ' ',
+    master_toefl:  ' ',
+
+    // PhD data
+    phd_languages:  [],
+    phd_grants:  'Нет',
+    phd_tuition_fee:  [' ', ' '],
+    phd_dual_degree_program: 'Нет',
+    phd_dual_major_program: 'Нет',
+    phd_living_cost: [' ', ' '],
+    phd_qs_ranking:  ' ',
+    phd_the_ranking:  ' ',
+    phd_arwu_ranking:  ' ',
+    phd_ielts: ' ',
+    phd_reviews:  [],
+    phd_acceptance_percentage:  ' ',
+    phd_application_deadline:  ' ',
+    phd_toefl:  ' ',
+
+    // General university data
+    location: ' ',
+    contact_info:  ' ',
+    general_info: ' ',
+    faculties:  ' ',
+    admission_info:  ' ',
+    facilities:  ' ',
+    student_life:  ' ',
+    city: ' ',
+    comments: [
+      '',
+      '',
+      '',
+      '',
+      '',
+      ''
+    ]
   });
 
   useEffect(() => {
     if (universityData) {
+      console.log('universityData : ', universityData);
       setFormValues({
         name: universityData.name || '',
 
         // Bachelor data
         bachelor_languages: universityData.bachelor?.languages || [],
         bachelor_grants: universityData.bachelor?.grants || '',
-        bachelor_tuition_fee: universityData.bachelor?.tuition_fee || [],
+        bachelor_tuition_fee: universityData.bachelor?.tuition_fee || ['', ''],
         bachelor_dual_degree_program: universityData.bachelor?.dual_degree_program || '',
         bachelor_dual_major_program: universityData.bachelor?.dual_major_program || '',
-        bachelor_living_cost: universityData.bachelor?.living_cost || [],
+        bachelor_living_cost: universityData.bachelor?.living_cost || ['', ''],
         bachelor_qs_ranking: universityData.bachelor?.rankings?.qs_ranking || '',
         bachelor_the_ranking: universityData.bachelor?.rankings?.the_ranking || '',
         bachelor_arwu_ranking: universityData.bachelor?.rankings?.arwu_ranking || '',
         bachelor_ielts: universityData.bachelor?.ielts || '',
         bachelor_reviews: universityData.bachelor?.reviews || [],
-        bachelor_percentage_acceptance: universityData.bachelor?.acceptance_percentage || '',
+        bachelor_acceptance_percentage: universityData.bachelor?.acceptance_percentage || '',
         bachelor_application_deadline: universityData.bachelor?.application_deadline || '',
         bachelor_toefl: universityData.bachelor?.toefl || '',
         // Master data
         master_languages: universityData.master?.languages || [],
         master_grants: universityData.master?.grants || '',
-        master_tuition_fee: universityData.master?.tuition_fee || [],
+        master_tuition_fee: universityData.master?.tuition_fee || ['', ''],
         master_dual_degree_program: universityData.master?.dual_degree_program || '',
         master_dual_major_program: universityData.master?.dual_major_program || '',
-        master_living_cost: universityData.master?.living_cost || [],
+        master_living_cost: universityData.master?.living_cost || ['', ''],
         master_qs_ranking: universityData.master?.rankings?.qs_ranking || '',
         master_the_ranking: universityData.master?.rankings?.the_ranking || '',
         master_arwu_ranking: universityData.master?.rankings?.arwu_ranking || '',
         master_ielts: universityData.master?.ielts || '',
         master_reviews: universityData.master?.reviews || [],
-        master_percentage_acceptance: universityData.master?.acceptance_percentage || '',
+        master_acceptance_percentage: universityData.master?.acceptance_percentage || '',
         master_application_deadline: universityData.master?.application_deadline || '',
         master_toefl: universityData.master?.toefl || '',
 
         // PhD data
         phd_languages: universityData.phd?.languages || [],
         phd_grants: universityData.phd?.grants || '',
-        phd_tuition_fee: universityData.phd?.tuition_fee || [],
+        phd_tuition_fee: universityData.phd?.tuition_fee || ['', ''],
         phd_dual_degree_program: universityData.phd?.dual_degree_program || '',
         phd_dual_major_program: universityData.phd?.dual_major_program || '',
-        phd_living_cost: universityData.phd?.living_cost || [],
+        phd_living_cost: universityData.phd?.living_cost || ['', ''],
         phd_qs_ranking: universityData.phd?.rankings?.qs_ranking || '',
         phd_the_ranking: universityData.phd?.rankings?.the_ranking || '',
         phd_arwu_ranking: universityData.phd?.rankings?.arwu_ranking || '',
         phd_ielts: universityData.phd?.ielts || '',
         phd_reviews: universityData.phd?.reviews || [],
-        phd_percentage_acceptance: universityData.phd?.acceptance_percentage || '',
+        phd_acceptance_percentage: universityData.phd?.acceptance_percentage || '',
         phd_application_deadline: universityData.phd?.application_deadline || '',
         phd_toefl: universityData.phd?.toefl || '',
 
@@ -126,10 +181,10 @@ const UniversityReadUpdatePage = () => {
           universityData.general_info || '',
           universityData.faculties || '',
           universityData.admission_info || '',
-          universityData.student_life || '',
-          ''
+          universityData.student_life || ''
         ]
       });
+      console.log(universityData.location);
     }
   }, [universityData]);
 
@@ -189,7 +244,7 @@ const UniversityReadUpdatePage = () => {
         },
         ielts: formValues.bachelor_ielts,
         reviews: formValues.bachelor_reviews,
-        acceptance_percentage: formValues.bachelor_percentage_acceptance,
+        acceptance_percentage: formValues.bachelor_acceptance_percentage,
         toefl: formValues.bachelor_toefl,
       },
       master: {
@@ -207,7 +262,7 @@ const UniversityReadUpdatePage = () => {
         },
         ielts: formValues.master_ielts,
         reviews: formValues.master_reviews,
-        acceptance_percentage: formValues.master_percentage_acceptance,
+        acceptance_percentage: formValues.master_acceptance_percentage,
         toefl: formValues.master_toefl,
       },
       phd: {
@@ -225,20 +280,30 @@ const UniversityReadUpdatePage = () => {
         },
         ielts: formValues.phd_ielts,
         reviews: formValues.phd_reviews,
-        acceptance_percentage: formValues.phd_percentage_acceptance,
+        acceptance_percentage: formValues.phd_acceptance_percentage,
         toefl: formValues.phd_toefl,
       },
       location: formValues.location,
-      contact_info: formValues.contact_info,
-      general_info: formValues.general_info,
-      faculties: formValues.faculties,
-      admission_info: formValues.admission_info,
+      contact_info: formValues.comments[0],
+      general_info: formValues.comments[1],
+      faculties: formValues.comments[2],
+      admission_info: formValues.comments[3],
       facilities: formValues.facilities,
-      student_life: formValues.student_life,
+      student_life: formValues.comments[4],
       city: formValues.city,
       status_tag: "Одобрено"
     };
 
+    // comments: [
+    //   universityData.contact_info || '',
+    //   universityData.general_info || '',
+    //   universityData.faculties || '',
+    //   universityData.admission_info || '',
+    //   universityData.student_life || '',
+    //   ''
+    // ]
+
+    console.log('payload', payload);
     try {
       await axiosPrivate.put(`/universities/${id}`, payload, {
         headers: {
@@ -315,16 +380,16 @@ const UniversityReadUpdatePage = () => {
                               label="Страна"
                               margin="normal"
                               fullWidth
-                              name="country"
-                              value={formValues.country}
+                              name="location"
+                              value={formValues.location}
                               onChange={handleInputChange}
                           />
                       )}
-                      value={formValues.country}
+                      value={formValues.location}
                       onChange={(event, newValue) => {
                         setFormValues({
                           ...formValues,
-                          country: newValue || ''
+                          location: newValue || ''
                         });
                       }}
                   />
@@ -516,6 +581,14 @@ const renderProgramFields = (programType, formValues, setFormValues) => {
                 name={`${formValuesPrefix}toefl`}
                 label="TOEFL"
                 value={formValues[`${formValuesPrefix}toefl`]}
+                onChange={handleInputChange}
+                margin="normal"
+                fullWidth
+            />
+            <TextField
+                name={`${formValuesPrefix}acceptance_percentage`}
+                label="Процент поступления"
+                value={formValues[`${formValuesPrefix}acceptance_percentage`]}
                 onChange={handleInputChange}
                 margin="normal"
                 fullWidth

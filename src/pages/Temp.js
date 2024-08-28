@@ -18,13 +18,14 @@ import {
   TextField,
   MenuItem, FormControl,
   Select,
-  InputLabel, Stack
+  InputLabel, Stack, CircularProgress
 } from '@mui/material';
 import { Add, Delete, Visibility, Save } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import Pagination from '@mui/material/Pagination';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
+import { toast } from 'react-toastify';
 
 const TabPanel = ({ children, value, index }) => {
   return (
@@ -54,25 +55,40 @@ const Temp = () => {
   const [isAdding, setIsAdding] = useState({ university: false, grant: false, scholarship: false });
   const [statusFilter, setStatusFilter] = useState('Все');
   const [currentPage, setCurrentPage] = useState(1);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [debouncedSearchQuery, setDebouncedSearchQuery] = useState('');
 
   const limit = 20;
   let universities;
 
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedSearchQuery(searchQuery);
+    }, 300);
+    console.log(debouncedSearchQuery);
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [searchQuery]);
 
-  const fetchUniversities = async (page, limit = 10, statusFilter = 'Все') => {
+
+
+  const fetchUniversities = async (page, limit = 10, statusFilter = 'Все', search = '') => {
     const params = {
       limit,
       page,
-      statusFilter
+      statusFilter,
     };
 
     if (statusFilter !== 'Все') {
       params.status_tag = statusFilter;
     }
+    if (params.search != ''){
+      params.search = search || undefined;
+    }
     console.log(params);
     try {
       const response = await axiosPrivate.get('/universities', { params });
-      console.log(response.data);
       return response.data;
     } catch (error) {
       console.error('Error fetching universities:', error);
@@ -101,10 +117,12 @@ const Temp = () => {
   // });
 
   const { data, isLoading, error } = useQuery({
-    queryKey: ['universities', { currentPage, limit, statusFilter }],
+    // queryKey: ['universities', { currentPage, limit, statusFilter }],
+    queryKey: ['universities', { currentPage, limit, statusFilter, debouncedSearchQuery}],
     queryFn: ({ queryKey }) => {
-      const [, { page, limit, statusFilter }] = queryKey;
-      return fetchUniversities(currentPage, limit, statusFilter);
+      const [, { page, limit, statusFilter, debouncedSearchQuery}] = queryKey;
+      return fetchUniversities(currentPage, limit, statusFilter, debouncedSearchQuery);
+      // return fetchUniversities(page, limit, statusFilter);
     },
     enabled: value === 0, // Замените value на нужное вам условие
     keepPreviousData: true, // Сохранение данных предыдущей страницы пока загружается новая
@@ -173,22 +191,18 @@ const Temp = () => {
   console.log(data);
   const handleDelete = async (id, type) => {
     try {
-      await axiosPrivate.post(`/universities`, payload, {
+      await axiosPrivate.delete(`/universities/${id}`, {
         headers: {
           'Content-Type': 'application/json'
         }
       });
       
-      toast.success('Университет успешно создан!', {
+      toast.success('Университет успешно удален.', {
         position: "top-right",
         autoClose: 3000
       });
-      
-      setTimeout(() => {
-        navigate('/dashboard');
-      }, 3000);
     } catch (error) {
-      toast.error('Ошибка при создании университета. Попробуйте снова.', {
+      toast.error('Ошибка при удалении университета. Попробуйте снова.', {
         position: "top-right",
         autoClose: 3000
       });
@@ -222,6 +236,12 @@ const Temp = () => {
               <Button variant="contained" color="primary" onClick={() => navigate('/colleges/upload')}>
                 Добавить Университет
               </Button>
+              <TextField
+                  label="Поиск"
+                  variant="outlined"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+              />
               <FormControl sx={{ minWidth: 200 }}>
                 <InputLabel>Фильтр по статусу</InputLabel>
                 <Select
